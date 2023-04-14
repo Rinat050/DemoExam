@@ -1,0 +1,80 @@
+﻿<Page x:Class="DemoExam.PagesApp.ServicePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:DemoExam.PagesApp"
+      mc:Ignorable="d" 
+      d:DesignHeight="700" d:DesignWidth="1200"
+      Title="Услуги">
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="55"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="55"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="1" Grid.Column="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="60"/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Column="0" Grid.Row="1">
+                    <TextBlock x:Name="tblID" Text="ID" Visibility="Collapsed"/>
+                    <TextBlock Text="Название"/>
+                    <TextBlock Text="Стоимость"/>
+                    <TextBlock Text="Длительность (в секундах)"/>
+                    <TextBlock Text="Описание"/>
+                    <TextBlock Text="Скидка (в %)"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Grid.Row="1">
+                    <TextBox x:Name="tbID" Text="{Binding ID}" IsReadOnly="True" Visibility="Collapsed"/>
+                    <TextBox x:Name="tbName" Text="{Binding Title}" MaxLength="100"/>
+                    <TextBox x:Name="tbCost" Text="{Binding Cost}"/>
+                    <TextBox x:Name="tbDuration" Text="{Binding DurationInSeconds}"/>
+                    <TextBox x:Name="tbDescription" Text="{Binding Description}"/>
+                    <TextBox x:Name="tbDiscount" Text="{Binding Discount}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="0 0 0 10">
+                    <Label FontSize="24" Name="lbTitle" VerticalAlignment="Center"/>
+                </StackPanel>
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Главное изображение"/>
+                <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+                    <Image Source="{Binding ImagePath}" Width="200" Height="150" Margin="0 0 0 10"/>
+                    <Button Margin="5 0 0 0" Content="Выбрать изображение" Width="250" Height="50"/>
+                </StackPanel>
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="Дополнительные изображения"/>
+                <StackPanel Grid.Row="3" Grid.Column="1">
+                    <ListBox>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{Binding ServicePhoto.ImagePath}" Width="80" Height="60"/>
+                                    <Button Content="Удалить" VerticalAlignment="Center" Margin="10 0 0 0"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <Button Width="350" Content="Добавить изображение"/>
+                </StackPanel>
+                <StackPanel Grid.Row="4" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 10 0 0">
+                    <Button Content="Сохранить" Margin="0 0 10 0" Click="btnCreate_Click"/>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Page>
