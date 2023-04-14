@@ -1,7 +1,11 @@
 ﻿using DemoExam.ADOApp;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
+using System.Drawing;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -60,7 +64,7 @@ namespace DemoExam.PagesApp
 
             if (!int.TryParse(tbDuration.Text, out duration)
                 || !double.TryParse(tbDiscount.Text, out double discount)
-                || !decimal.TryParse(tbCost.Text, out decimal cost))
+                || !decimal.TryParse(tbCost.Text.Replace('.', ','), out decimal cost))
             {
                 MessageBox.Show("Введите корректные данные (скидка, стоимость, длительность)!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
@@ -88,6 +92,56 @@ namespace DemoExam.PagesApp
             MessageBox.Show($"Услуга успешно сохранена!", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
 
             NavigationService.GoBack();
+        }
+
+        private void btnMainImage_Click(object sender, RoutedEventArgs e)
+        {
+            var window = new OpenFileDialog();
+
+            if (window.ShowDialog() is true)
+            {
+                var byteImg = File.ReadAllBytes(window.FileName);
+                _service.MainImage = byteImg;
+            }
+        }
+
+        private void btnOtherImage_Click(object sender, RoutedEventArgs e)
+        {
+            var window = new OpenFileDialog();
+
+            if (window.ShowDialog() is true)
+            {
+                var byteImg = File.ReadAllBytes(window.FileName);
+                _service.ServicePhoto.Add(new ServicePhoto() { Image = byteImg, ServiceID = _service.ID, });
+                lbImages.ItemsSource = _service.ServicePhoto.ToList();
+            }
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            lbImages.ItemsSource = _service.ServicePhoto.ToList();
+        }
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            var image = (byte[])((Button)sender).Tag;
+
+            var res = _service.ServicePhoto.FirstOrDefault(x => x.Image == image);
+
+            _service.ServicePhoto.Remove(res);
+
+            lbImages.ItemsSource = _service.ServicePhoto.ToList();
+
+            if (_isEdit)
+            {
+                var dbImage = App.Connection.ServicePhoto.ToArray().FirstOrDefault(x => x.ID == res?.ID);
+
+                if (dbImage != null)
+                {
+                    App.Connection.ServicePhoto.Remove(dbImage);
+                    App.Connection.SaveChanges();
+                }
+            }
         }
     }
 }

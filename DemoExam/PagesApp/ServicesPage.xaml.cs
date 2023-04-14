@@ -134,11 +134,9 @@ namespace DemoExam.PagesApp
                 MessageBox.Show("Удаление не возможно, так как существуют записи", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            else
-            {
-                MessageBox.Show("Успешно", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Information);
-                return;
-            }
+
+            MessageBox.Show("Успешно", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Information);
+            return;
         }
 
         private void btnEdit_Click(object sender, RoutedEventArgs e)
@@ -160,7 +158,6 @@ namespace DemoExam.PagesApp
         private void btnCreate_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new ServicePage(null));
-            UpdateServices();
         }
 
         private void btnAdminMode_Click(object sender, RoutedEventArgs e)

@@ -39,13 +39,11 @@ namespace DemoExam.PagesApp
                 return;
             }
 
-            var date = new DateTime(dpDate.SelectedDate.Value.Year, dpDate.SelectedDate.Value.Month, dpDate.SelectedDate.Value.Day);
-
             var newClientService = new ClientService
             {
                 Client = (Client)cbClients.SelectedItem,
                 Service = _currentService,
-                StartTime = date + startTime,
+                StartTime = dpDate.SelectedDate.Value + startTime,
                 Comment = tbComment.Text
             };
 

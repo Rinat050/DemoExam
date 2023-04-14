@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:DemoExam.PagesApp"
       mc:Ignorable="d" 
       d:DesignHeight="700" d:DesignWidth="1200"
-      Title="Услуги">
+      Title="Услуги" Loaded="Page_Loaded">
     
     <Grid>
         <Grid.ColumnDefinitions>
@@ -52,27 +52,41 @@
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="0 0 0 10">
                     <Label FontSize="24" Name="lbTitle" VerticalAlignment="Center"/>
                 </StackPanel>
-                <TextBlock Grid.Row="2" Grid.Column="0" Text="Главное изображение"/>
-                <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
-                    <Image Source="{Binding ImagePath}" Width="200" Height="150" Margin="0 0 0 10"/>
-                    <Button Margin="5 0 0 0" Content="Выбрать изображение" Width="250" Height="50"/>
+                <StackPanel Grid.Row="0" Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 10 0 0">
+                    <Button Content="Сохранить" Margin="0 0 10 0" Click="btnCreate_Click"/>
                 </StackPanel>
-                <TextBlock Grid.Row="3" Grid.Column="0" Text="Дополнительные изображения"/>
+
+                <StackPanel Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left">
+                    <TextBlock Text="Главное изображение"/>
+                    <Button Margin="5 0 0 0" Content="Выбрать изображение" Width="250" Height="50" Click="btnMainImage_Click"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left">
+                    <TextBlock Text="Дополнительные изображения"/>
+                    <Button Width="350" Content="Добавить изображение" Click="btnOtherImage_Click"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+                    <Image x:Name="MainImage" Source="{Binding MainImage}" Width="180" Height="120" Margin="0 0 0 10"/>
+                </StackPanel>
+
                 <StackPanel Grid.Row="3" Grid.Column="1">
-                    <ListBox>
-                        <ListBox.ItemTemplate>
+                    <ListView Name="lbImages" d:ItemsSource="{d:SampleData ItemCount=5}">
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                        <ListView.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="{Binding ServicePhoto.ImagePath}" Width="80" Height="60"/>
-                                    <Button Content="Удалить" VerticalAlignment="Center" Margin="10 0 0 0"/>
+                                <StackPanel>
+                                    <Image Source="{Binding Image}" Width="80" Height="70"/>
+                                    <Button Content="Удалить" Tag="{Binding Path = Image}" Click="btnDelete_Click" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                    <Button Width="350" Content="Добавить изображение"/>
-                </StackPanel>
-                <StackPanel Grid.Row="4" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 10 0 0">
-                    <Button Content="Сохранить" Margin="0 0 10 0" Click="btnCreate_Click"/>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
                 </StackPanel>
             </Grid>
         </StackPanel>
